@@ -22,7 +22,7 @@ int main()
 
     ancho = (long)xx[20] * 65536 + (long)xx[19] * 256 + (long)xx[18];
     alto = (long)xx[24] * 65536 + (long)xx[23] * 256 + (long)xx[22];
-    space = alto*ancho*3;
+    space = alto*ancho*3; // Ajustar valor
 
     printf("largo img %li\n", alto);
     printf("ancho img %li\n", ancho);
@@ -37,7 +37,7 @@ int main()
     printf("Ciclos: %d\n", j);
     printf("Space:  %d\n", j);
    
-    /* ------ Transformación a escala de grises ------*/
+    /* ------ TransformaciÃ³n a escala de grises ------*/
     int count = 0;
 #pragma omp parallel 
     {
@@ -54,7 +54,7 @@ int main()
                 *(arr_in + i + 2) = pixel;
                 count += 3;
                 if (count == ancho * 3) {
-                    i += 2;
+                    /*i += 2;*/ //Dependiente del valor real del ancho
                     count = 0;
                 }
             }
@@ -64,9 +64,9 @@ int main()
 #pragma omp section
             for (int i = 0; i < alto; i++) {
                 for (int j = 0; j < (ancho * 3); j += 3) {
-                    *(arr_out + (i * ((ancho * 3))/*+2*/) + j) = *(arr_in + (i * ((ancho * 3))/*+2*/) + (ancho * 3) - j);
-                    *(arr_out + (i * ((ancho * 3))/*+2*/) + j + 1) = *(arr_in + (i * ((ancho * 3))/*+2*/) + (ancho * 3) - j - 1);
-                    *(arr_out + (i * ((ancho * 3))/*+2*/) + j + 2) = *(arr_in + (i * ((ancho * 3))/*+2*/) + (ancho * 3) - j - 2);
+                    *(arr_out + (i * ((ancho * 3)/*+2*/)) + j) = *(arr_in + (i * ((ancho * 3)/*+2*/)) + (ancho * 3) - j);
+                    *(arr_out + (i * ((ancho * 3)/*+2*/)) + j + 1) = *(arr_in + (i * ((ancho * 3)/*+2*/)) + (ancho * 3) - j - 1);
+                    *(arr_out + (i * ((ancho * 3)/*+2*/)) + j + 2) = *(arr_in + (i * ((ancho * 3)/*+2*/)) + (ancho * 3) - j - 2);
                 }
             }
         }
